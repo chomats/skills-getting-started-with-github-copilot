@@ -29,15 +29,19 @@ header h1 {
 }
 
 main {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 30px;
   justify-content: center;
+  align-items: start;
+  width: 100%;
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   main {
     grid-template-columns: 2fr 1fr;
+    gap: 30px;
   }
 }
 
@@ -214,4 +218,48 @@ footer {
   margin-top: 30px;
   padding: 20px;
   color: #666;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  header {
+    padding: 18px 15px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  header h2 {
+    font-size: 1rem;
+  }
+
+  section {
+    padding: 16px;
+  }
+
+  .activity-card,
+  .participant-card {
+    padding: 14px;
+  }
+
+  .participants-section {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .participant-meta {
+    font-size: 0.9rem;
+  }
+
+  .participant-chips {
+    gap: 6px;
+  }
+
+  button {
+    width: 100%;
+  }
 }
