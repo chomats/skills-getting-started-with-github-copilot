@@ -12,19 +12,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Clear loading message
       activitiesList.innerHTML = "";
+      activitySelect.innerHTML = '<option value="">-- Select an activity --</option>';
 
-      // Populate activities list
+      // Populate activities list and participants subsection for each activity
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
 
         const spotsLeft = details.max_participants - details.participants.length;
+        const participantCount = details.participants.length;
+
+        const participantListHtml = details.participants.length
+          ? `<div class="participant-chips">${details.participants
+              .map((email) => `<span class="participant-chip">${email}</span>`)
+              .join("")}</div>`
+          : `<p class="no-participants">Aucun participant pour l'instant.</p>`;
 
         activityCard.innerHTML = `
-          <h4>${name}</h4>
+          <div class="activity-header">
+            <h4>${name}</h4>
+            <p class="participant-meta">${participantCount} inscrit(s) • ${spotsLeft} place(s) restantes</p>
+          </div>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <div class="participants-section">
+            <h5>Participants actuels</h5>
+            ${participantListHtml}
+          </div>
         `;
 
         activitiesList.appendChild(activityCard);
@@ -37,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (error) {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
+      participantsList.innerHTML = "<p>Failed to load participants. Please try again later.</p>";
       console.error("Error fetching activities:", error);
     }
   }
@@ -62,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+        fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
